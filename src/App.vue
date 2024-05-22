@@ -1,5 +1,6 @@
 <script setup>
 import WeekInput from './components/WeekInput.vue';
+import Search from './components/Search.vue';
 </script>
 
 <template>
@@ -13,6 +14,7 @@ import WeekInput from './components/WeekInput.vue';
 
   <main>
     <WeekInput />
+    <Search />
   </main>
 </template>
 

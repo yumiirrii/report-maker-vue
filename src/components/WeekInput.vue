@@ -4,10 +4,11 @@ import ProjectInput from './ProjectInput.vue';
 
 const report = reactive({
   week: null,
-  project: {
-    name: '',
-    tasks: []
-  },
+  // project: {
+  //   name: '',
+  //   tasks: []
+  // },
+  projects: [],
   summary: ''
 })
 let isWeekSubmitted = ref(false);
