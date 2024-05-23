@@ -4,26 +4,23 @@ import TaskInput from './TaskInput.vue';
 
 const props = defineProps(['report']);
 
-const name = ref('');
-let isProjectSubmitted = ref(false);
+const project = ref('');
+const isProjectSubmitted = ref(false);
 
 const submitProject = () => {
   isProjectSubmitted.value = true;
-  props.report.projects.push({
-    name: name.value,
-    tasks:[]
-  })
+  props.report.projectList.push(project.value);
 }
 </script>
 
 <template>
   <h2>PROJECT</h2>
   <div v-if="!isProjectSubmitted">
-    <input type="text" v-model="name" />
+    <input type="text" v-model="project" />
     <button @click="submitProject">enter</button>
   </div>
   <div v-else>
-    <p>{{ name }}</p>
-    <TaskInput :report="report"/>
+    <p>{{ project }}</p>
+    <TaskInput :report="report" :project="project"/>
   </div>
 </template>

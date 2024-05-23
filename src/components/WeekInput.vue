@@ -8,7 +8,9 @@ const report = reactive({
   //   name: '',
   //   tasks: []
   // },
-  projects: [],
+  projectList: [],
+  doneTaskMapList: [],
+  planningTaskMapList: [],
   summary: ''
 })
 let isWeekSubmitted = ref(false);
