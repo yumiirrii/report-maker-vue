@@ -1,5 +1,6 @@
 <script setup>
 import { reactive, ref } from 'vue';
+import axios from 'axios';
 
 const props = defineProps(['report', 'project']);
 
@@ -12,6 +13,8 @@ const planningTaskMap = new Map();
 const planningTask = ref('');
 const planningTaskList = ref([]);
 const isPlanningTaskSubmitted = ref(false);
+
+const responseMessage = ref('');
 
 const submitDoneTask = () => {
   isDoneTaskSubmitted.value = true;
@@ -28,10 +31,16 @@ const submitPlanningTask = () => {
   planningTask.value = '';
 }
 
-const registerProjectAndTasks = () => {
+const registerProjectAndTasks = async () => {
   props.report.doneTaskMapList.push(doneTaskMap);
   props.report.planningTaskMapList.push(planningTaskMap);
   console.log(props.report);
+  try {
+    const res = await axios.post('http://localhost:8080/confirm/submit', props.report);
+    responseMessage.value = res.data.message;
+  } catch (error) {
+    console.log(error);
+  }
 }
 </script>
 
@@ -66,5 +75,6 @@ const registerProjectAndTasks = () => {
   </div>
   <div v-if="isPlanningTaskSubmitted">
     <button @click="registerProjectAndTasks">Register Project & Tasks</button>
+    {{ responseMessage }}
   </div>
 </template>
