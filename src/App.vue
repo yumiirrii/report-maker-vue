@@ -1,21 +1,14 @@
 <script setup>
-import WeekInput from './components/WeekInput.vue';
-import Search from './components/Search.vue';
+import { RouterView, RouterLink } from 'vue-router';
 </script>
 
 <template>
   <header>
-    <!-- <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div> -->
+    <!-- <router-link to="/">Top</router-link>
+    <router-link to="/input">Input</router-link>
+    <router-link to="/search">Search</router-link> -->
   </header>
-
-  <main>
-    <WeekInput />
-    <Search />
-  </main>
+  <RouterView />
 </template>
 
 <style scoped>

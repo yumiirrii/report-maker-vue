@@ -1,23 +1,25 @@
 <script setup>
-import {ref} from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
 const items = ref([]);
-const fetchItems = async () => {
+
+onMounted( async () => {
   try {
     const res = await axios.get('http://localhost:8080/');
     items.value = res.data;
   } catch (error) {
     console.log(error);
   }
-};
+});
 </script>
 
 <template>
   <div>
-      <button @click="fetchItems">Get Items</button>
     <ul>
-      <li v-for="(item, index) in items" :key="index">{{ item }}</li>
+      <li v-for="(item, index) in items" :key="index">
+        <router-link :to="{ path: `/search/${item.id}` }">{{ item.week }}</router-link>
+      </li>
     </ul>
   </div>
 </template>

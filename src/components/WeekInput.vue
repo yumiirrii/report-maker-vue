@@ -1,20 +1,21 @@
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref } from 'vue';
 import ProjectInput from './ProjectInput.vue';
+import { useReportStore } from '@/stores/reportStore';
 
-const report = reactive({
-  week: '',
-  projectList: [],
-  doneTaskMapList: [],
-  planningTaskMapList: [],
-  summary: ''
-})
-let isWeekSubmitted = ref(false);
+const reportStore = useReportStore();
+
+const week = ref(null);
+const isWeekSubmitted = ref(false);
+const errorMsg = ref('');
 
 const submitWeek = () => {
-  isWeekSubmitted.value = true;
-  report.week = weekToDateString(report.week); 
-  console.log(report.week);
+  if (week.value) {
+    reportStore.report.week = weekToDateString(week.value);
+    isWeekSubmitted.value = true;
+  } else {
+    errorMsg.value = 'week input is required.'
+  }
 }
 
 const weekToDateString = (weekValue) => {
@@ -30,11 +31,13 @@ const weekToDateString = (weekValue) => {
 <template>
   <h2>WEEK</h2>
   <div v-if="!isWeekSubmitted">
-    <input type="week" v-model="report.week" />
+    <input type="week" v-model="week" />
     <button @click="submitWeek">enter</button>
+    <br />
+    <span>{{ errorMsg }}</span>
   </div>
   <div v-else>
-    <p>{{ weekToDateString(report.week) }}</p>
-    <ProjectInput :report="report"/>
+    <p>{{ reportStore.report.week }}</p>
+    <ProjectInput />
   </div>
 </template>

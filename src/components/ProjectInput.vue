@@ -1,15 +1,26 @@
 <script setup>
-import { reactive, ref } from 'vue';
-import TaskInput from './TaskInput.vue';
+import { ref } from 'vue';
+import PlanningTaskInput from './PlanningTaskInput.vue';
+import { useReportStore } from '@/stores/reportStore';
 
-const props = defineProps(['report']);
+const reportStore = useReportStore();
 
 const project = ref('');
 const isProjectSubmitted = ref(false);
+const errorMsg = ref('');
 
 const submitProject = () => {
-  isProjectSubmitted.value = true;
-  props.report.projectList.push(project.value);
+  if (project.value) {
+    reportStore.report.projectList.push(project.value);
+    isProjectSubmitted.value = true;
+  } else {
+    errorMsg.value = 'project input is required.'
+  }
+}
+
+const reset = () => {
+  project.value = '';
+  isProjectSubmitted.value = false;
 }
 </script>
 
@@ -18,9 +29,11 @@ const submitProject = () => {
   <div v-if="!isProjectSubmitted">
     <input type="text" v-model="project" />
     <button @click="submitProject">enter</button>
+    <br />
+    <span>{{ errorMsg }}</span>
   </div>
   <div v-else>
     <p>{{ project }}</p>
-    <TaskInput :report="report" :project="project"/>
+    <PlanningTaskInput :project="project" @reset="reset"/>
   </div>
 </template>
