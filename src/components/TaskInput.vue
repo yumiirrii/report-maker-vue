@@ -1,6 +1,5 @@
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue';
-import axios from 'axios';
+import { ref } from 'vue';
 import { useReportStore } from '@/stores/reportStore';
 import { useRouter } from 'vue-router';
 
@@ -47,7 +46,7 @@ const registerProjectAndTasks = () => {
 }
   
 const submitTasks = () => {
-  const doneTaskMap = new Map().set(props.project, doneTaskList.value);
+  const doneTaskMap = new Map().set(props.project, [...doneTaskList.value]);
   const planningTaskMap = new Map().set(props.project, planningTaskList.value);
   reportStore.report.doneTaskMapList.push(doneTaskMap);
   reportStore.report.planningTaskMapList.push(planningTaskMap);
@@ -55,25 +54,13 @@ const submitTasks = () => {
 }
 
 const handleNoClick = () => {
-  router.push({ name: 'Confirm' });
+  router.push({ name: 'Summary' });
 }
 
 const handleYesClick = () => {
   existOtherProject.value = true;
   emit('reset');
 }
-
-// const registerProjectAndTasks = async () => {
-//   props.report.doneTaskMapList.push(doneTaskMap);
-//   props.report.planningTaskMapList.push(planningTaskMap);
-//   console.log(props.report);
-//   try {
-//     const res = await axios.post('http://localhost:8080/confirm/submit', props.report);
-//     responseMessage.value = res.data.message;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
 </script>
 
 <template>
@@ -82,7 +69,7 @@ const handleYesClick = () => {
       <h2>TASKS DONE THIS WEEK</h2>
       <div>
         <input type="text" v-model="doneTask" />
-        <button @click="addDoneTask">enter</button>
+        <button @click="addDoneTask">ENTER</button>
       </div>
       <div>
         <ul>
@@ -96,7 +83,7 @@ const handleYesClick = () => {
       <h2>TASKS PLANNED TO DO NEXT WEEK</h2>
       <div>
         <input type="text" v-model="planningTask" />
-        <button @click="addPlanningTask">enter</button>
+        <button @click="addPlanningTask">ENTER</button>
       </div>
       <div>
         <ul>
@@ -106,13 +93,13 @@ const handleYesClick = () => {
         </ul>
       </div>
     </div>
-    <div v-if="isPlanningTaskAdded">
-      <button @click="registerProjectAndTasks">Register Project & Tasks</button>
+    <div v-if="isPlanningTaskAdded" class="register">
+      <button @click="registerProjectAndTasks">REGISTER PROJECT & TASKS</button>
     </div>
     <div v-if="isRegisterBtnClicked">
       <p>Do you have any other project working on?</p>
-      <button @click="handleNoClick">no</button>
-      <button @click="handleYesClick">yes</button>
+      <button @click="handleNoClick">NO</button>
+      <button @click="handleYesClick">YES</button>
     </div>
   </div>
 </template>

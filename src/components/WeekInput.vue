@@ -6,13 +6,12 @@ import { useReportStore } from '@/stores/reportStore';
 const reportStore = useReportStore();
 
 const week = ref(null);
-const isWeekSubmitted = ref(false);
 const errorMsg = ref('');
 
 const submitWeek = () => {
   if (week.value) {
     reportStore.report.week = weekToDateString(week.value);
-    isWeekSubmitted.value = true;
+    reportStore.isWeekSubmitted = true;
   } else {
     errorMsg.value = 'week input is required.'
   }
@@ -30,14 +29,16 @@ const weekToDateString = (weekValue) => {
 
 <template>
   <h2>WEEK</h2>
-  <div v-if="!isWeekSubmitted">
+  <div v-if="!reportStore.isWeekSubmitted">
     <input type="week" v-model="week" />
-    <button @click="submitWeek">enter</button>
+    <button @click="submitWeek">ENTER</button>
     <br />
-    <span>{{ errorMsg }}</span>
+    <span class="warning">{{ errorMsg }}</span>
   </div>
   <div v-else>
     <p>{{ reportStore.report.week }}</p>
-    <ProjectInput />
+    <div v-if="!reportStore.isWeekModify">
+      <ProjectInput />
+    </div>
   </div>
 </template>

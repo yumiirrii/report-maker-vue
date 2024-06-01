@@ -9,21 +9,23 @@ export const useReportStore = defineStore('report', {
       doneTaskMapList: [],
       planningTaskMapList: [],
       summary: ''
-    }
-  }),
-  actions: {
-    nextStep() {
-      this.currentStep = 'confirm';
     },
-    reset() {
-      this.currentStep = 'weekInput';
-      this.report = {
-        week: '',
-        projectList: [],
-        doneTaskMapList: [],
-        planningTaskMapList: [],
-        summary: ''
-      }
-    }
-  }
+    isWeekSubmitted : false,
+    isWeekModify : false
+  }),
+  // actions: {
+  //   nextStep() {
+  //     this.currentStep = 'confirm';
+  //   },
+  //   reset() {
+  //     this.currentStep = 'weekInput';
+  //     this.report = {
+  //       week: '',
+  //       projectList: [],
+  //       doneTaskMapList: [],
+  //       planningTaskMapList: [],
+  //       summary: ''
+  //     }
+  //   }
+  // }
 })

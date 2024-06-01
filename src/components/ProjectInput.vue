@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import PlanningTaskInput from './PlanningTaskInput.vue';
+import TaskInput from './TaskInput.vue';
 import { useReportStore } from '@/stores/reportStore';
 
 const reportStore = useReportStore();
@@ -28,12 +28,12 @@ const reset = () => {
   <h2>PROJECT</h2>
   <div v-if="!isProjectSubmitted">
     <input type="text" v-model="project" />
-    <button @click="submitProject">enter</button>
+    <button @click="submitProject">ENTER</button>
     <br />
-    <span>{{ errorMsg }}</span>
+    <span class="warning">{{ errorMsg }}</span>
   </div>
   <div v-else>
     <p>{{ project }}</p>
-    <PlanningTaskInput :project="project" @reset="reset"/>
+    <TaskInput :project="project" @reset="reset"/>
   </div>
 </template>
