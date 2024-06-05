@@ -2,10 +2,9 @@ import { defineStore } from 'pinia';
 
 export const useReportStore = defineStore('report', {
   state: () => ({
-    currentStep: 'input',
     report: {
       week: '',
-      projectList: [],
+      projectList: new Set(),
       doneTaskMapList: [],
       planningTaskMapList: [],
       summary: ''
@@ -13,19 +12,14 @@ export const useReportStore = defineStore('report', {
     isWeekSubmitted : false,
     isWeekModify : false
   }),
-  // actions: {
-  //   nextStep() {
-  //     this.currentStep = 'confirm';
-  //   },
-  //   reset() {
-  //     this.currentStep = 'weekInput';
-  //     this.report = {
-  //       week: '',
-  //       projectList: [],
-  //       doneTaskMapList: [],
-  //       planningTaskMapList: [],
-  //       summary: ''
-  //     }
-  //   }
-  // }
+  actions: {
+    addProjectList(project) {
+      if (this.report.projectList.has(project)) {
+        return false;
+      } else {
+        this.report.projectList.add(project);
+        return true;
+      }
+    }
+  }
 })

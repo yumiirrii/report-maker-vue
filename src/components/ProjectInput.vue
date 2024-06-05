@@ -2,20 +2,45 @@
 import { ref } from 'vue';
 import TaskInput from './TaskInput.vue';
 import { useReportStore } from '@/stores/reportStore';
+import axios from 'axios';
 
 const reportStore = useReportStore();
 
 const project = ref('');
+const lastTaskList = ref([]);
 const isProjectSubmitted = ref(false);
 const errorMsg = ref('');
 
 const submitProject = () => {
   if (project.value) {
-    reportStore.report.projectList.push(project.value);
-    isProjectSubmitted.value = true;
+    isProjectSubmitted.value = reportStore.addProjectList(project);
+    checkLastTask();
+    if (isProjectSubmitted.value === false) {
+      errorMsg.value = 'project is duplicated.';
+      project.value = '';
+    }
   } else {
-    errorMsg.value = 'project input is required.'
+    errorMsg.value = 'project input is required.';
   }
+}
+
+const checkLastTask = async () => {
+  try {
+    console.log(project.value);
+    const res = await axios.post('http://localhost:8080/input/checktask', project.value, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    console.log(res.data)
+    lastTaskList.value = res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const updateLastTaskList = (selectedLastTaskList) => {
+  lastTaskList.value = lastTaskList.value.filter(lastTask => !selectedLastTaskList.includes(lastTask));
 }
 
 const reset = () => {
@@ -34,6 +59,11 @@ const reset = () => {
   </div>
   <div v-else>
     <p>{{ project }}</p>
-    <TaskInput :project="project" @reset="reset"/>
+    <TaskInput
+      :project="project"
+      :lastTaskList="lastTaskList"
+      @updateLastTaskList="updateLastTaskList"
+      @reset="reset"
+    />
   </div>
 </template>
