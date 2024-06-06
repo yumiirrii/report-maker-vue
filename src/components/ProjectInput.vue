@@ -26,13 +26,7 @@ const submitProject = () => {
 
 const checkLastTask = async () => {
   try {
-    console.log(project.value);
-    const res = await axios.post('http://localhost:8080/input/checktask', project.value, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    console.log(res.data)
+    const res = await axios.post('http://localhost:8080/input/checktask', { "projectName" : project.value });
     lastTaskList.value = res.data;
   } catch (error) {
     console.log(error);
