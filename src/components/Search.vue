@@ -1,14 +1,19 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import Accordion from '@/components/Accordion.vue';
 
 const items = ref([]);
 const checkedItems = ref(new Set());
 
+const reportMonthlyMap = ref(new Map());
+
 onMounted( async () => {
   try {
-    const res = await axios.get('http://localhost:8080/');
-    items.value = res.data;
+    // const res = await axios.get('http://localhost:8080/');
+    // items.value = res.data;
+    const res = await axios.get('http://localhost:8080/search');
+    reportMonthlyMap.value = res.data;
   } catch (error) {
     console.log(error);
   }
@@ -38,6 +43,7 @@ const deleteItems = async () => {
 
 <template>
   <div>
+    <Accordion :reportMonthlyMap="reportMonthlyMap" />
     <ul>
       <li v-for="(item, index) in items" :key="index">
         <router-link :to="{ path: `/search/${item.id}` }">{{ item.week }}</router-link>

@@ -13,7 +13,7 @@ const errorMsg = ref('');
 
 const submitProject = () => {
   if (project.value) {
-    isProjectSubmitted.value = reportStore.addProjectList(project);
+    isProjectSubmitted.value = reportStore.addProjectList(project.value);
     checkLastTask();
     if (isProjectSubmitted.value === false) {
       errorMsg.value = 'project is duplicated.';

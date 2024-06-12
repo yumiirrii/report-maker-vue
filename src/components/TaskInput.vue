@@ -105,9 +105,9 @@ const handleYesClick = () => {
           </li>
         </ul>
       </div>
-      <div>
+      <div id="options">
         <p>OPTIONS</p>
-        <ul>
+        <ul class="checkbox-ul">
           <li v-for="(lastTask, index) in props.lastTaskList" :key="index">
             <input
               type="checkbox"
@@ -141,8 +141,37 @@ const handleYesClick = () => {
     </div>
     <div v-if="isRegisterBtnClicked">
       <p>Do you have any other project working on?</p>
-      <button @click="handleNoClick">NO</button>
-      <button @click="handleYesClick">YES</button>
+      <button class="yes-no-btn" @click="handleNoClick">NO</button>
+      <button class="yes-no-btn" @click="handleYesClick">YES</button>
     </div>
   </div>
 </template>
+
+<style scoped>
+#options {
+    margin-left: 30px;
+    margin-bottom: 20px;
+    padding: 5px 30px 20px 30px;
+    background: #eee3bdff;
+    width: 60%;
+}
+
+#options p {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 0px;
+}
+
+#options button {
+    margin-left: 45px;
+}
+
+.no-task {
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.yes-no-btn {
+    margin-right: 5px;
+}
+</style>
