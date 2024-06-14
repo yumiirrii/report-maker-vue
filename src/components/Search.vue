@@ -1,40 +1,42 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import Accordion from '@/components/Accordion.vue';
+import AccordionItem from '@/components/AccordionItem.vue';
 
 const items = ref([]);
-const checkedItems = ref(new Set());
+const deleteItems = ref(new Set());
 
 const reportMonthlyMap = ref(new Map());
 
-onMounted( async () => {
+onMounted(() => {
+  getReports();
+});
+
+const getReports = async() => {
   try {
-    // const res = await axios.get('http://localhost:8080/');
-    // items.value = res.data;
     const res = await axios.get('http://localhost:8080/search');
     reportMonthlyMap.value = res.data;
   } catch (error) {
     console.log(error);
   }
-});
-
-const toggleItem = (id) => {
-  if (checkedItems.value.has(id)) {
-    checkedItems.value.delete(id);
-  } else {
-    checkedItems.value.add(id);
-  }
-  console.log(checkedItems.value);
 }
 
-const deleteItems = async () => {
+const toggleItem = (id) => {
+  if (deleteItems.value.has(id)) {
+    deleteItems.value.delete(id);
+  } else {
+    deleteItems.value.add(id);
+  }
+  console.log(deleteItems.value);
+}
+
+const deleteReports = async () => {
   try {
     const res = await axios.delete('http://localhost:8080/delete', {
-      data: Array.from(checkedItems.value)
+      data: Array.from(deleteItems.value)
     })
-    items.value = items.value.filter(item => !checkedItems.value.has(item.id));
-    checkedItems.value.clear();
+    getReports();
+    deleteItems.value.clear();
   } catch (error) {
     console.log(error);
   }
@@ -42,14 +44,20 @@ const deleteItems = async () => {
 </script>
 
 <template>
-  <div>
-    <Accordion :reportMonthlyMap="reportMonthlyMap" />
-    <ul>
-      <li v-for="(item, index) in items" :key="index">
-        <router-link :to="{ path: `/search/${item.id}` }">{{ item.week }}</router-link>
-        <input type="checkbox" @change="toggleItem(item.id)" :checked="checkedItems.has(item.id)" />
-      </li>
-    </ul>
-    <button @click="deleteItems">DELETE</button>
+  <div v-for="(value, key) in reportMonthlyMap" :key="key">
+    <AccordionItem>
+      <template #title>
+        {{ key }}
+      </template>
+      <template #content>
+        <ul class="checkbox-ul">
+          <li v-for="report in value" :key="report.id">
+            <input type="checkbox" @change="toggleItem(report.id)" :checked="deleteItems.has(report.id)" />
+            <router-link :to="{ path: `/search/${report.id}` }">{{ report.week }}</router-link>
+          </li>
+        </ul>
+      </template>
+    </AccordionItem>
   </div>
+  <button @click="deleteReports">DELETE</button>
 </template>

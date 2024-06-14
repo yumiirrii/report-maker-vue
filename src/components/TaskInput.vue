@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { useReportStore } from '@/stores/reportStore';
 import { useRouter } from 'vue-router';
+import Modal from '@/components/Modal.vue';
 
 const reportStore = useReportStore();
 const router = useRouter();
@@ -73,7 +74,7 @@ const registerProjectAndTasks = () => {
   
 const submitTasks = () => {
   const doneTaskMap = new Map().set(props.project, [...doneTaskList.value]);
-  const planningTaskMap = new Map().set(props.project, planningTaskList.value);
+  const planningTaskMap = new Map().set(props.project, [...planningTaskList.value]);
   reportStore.report.doneTaskMapList.push(doneTaskMap);
   reportStore.report.planningTaskMapList.push(planningTaskMap);
   console.log(reportStore.report);
@@ -105,7 +106,7 @@ const handleYesClick = () => {
           </li>
         </ul>
       </div>
-      <div id="options">
+      <div id="options" v-if="props.lastTaskList > 0">
         <p>OPTIONS</p>
         <ul class="checkbox-ul">
           <li v-for="(lastTask, index) in props.lastTaskList" :key="index">
@@ -140,30 +141,36 @@ const handleYesClick = () => {
       <button @click="registerProjectAndTasks">REGISTER PROJECT & TASKS</button>
     </div>
     <div v-if="isRegisterBtnClicked">
-      <p>Do you have any other project working on?</p>
-      <button class="yes-no-btn" @click="handleNoClick">NO</button>
-      <button class="yes-no-btn" @click="handleYesClick">YES</button>
+      <Modal>
+        <template #content>
+          <p id="modal-text">Do you have any other project working on?</p>
+          <button class="yes-no-btn" @click="handleNoClick">NO</button>
+          <button class="yes-no-btn" @click="handleYesClick">YES</button>
+        </template>
+      </Modal>
     </div>
   </div>
 </template>
 
 <style scoped>
 #options {
-    margin-left: 30px;
-    margin-bottom: 20px;
-    padding: 5px 30px 20px 30px;
+    margin: 10px;
+    /* margin-left: 30px;
+    margin-bottom: 20px; */
+    padding: 10px 30px;
     background: #eee3bdff;
     width: 60%;
 }
 
 #options p {
+    margin: 10px;
     font-weight: bold;
     font-size: 18px;
-    margin-bottom: 0px;
+    /* margin-bottom: 0px; */
 }
 
 #options button {
-    margin-left: 45px;
+    margin: 10px;
 }
 
 .no-task {
@@ -171,7 +178,19 @@ const handleYesClick = () => {
     margin-bottom: 15px;
 }
 
+#modal-text {
+  padding: 10px;
+}
+
 .yes-no-btn {
-    margin-right: 5px;
+  color: #e7d491ff;
+  background: #222222;
+  margin-right: 5px;
+}
+
+.yes-no-btn:hover {
+  color: #222222;
+  background: #e7d491ff;
+  border-color: #222222;
 }
 </style>

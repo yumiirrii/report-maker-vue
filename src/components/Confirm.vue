@@ -22,9 +22,11 @@ const submitReport = async () => {
   try {
     const serializedData = {
       ...reportStore.report,
+      projectList: Array.from(reportStore.report.projectList),
       doneTaskMapList: serializeTaskMapList(reportStore.report.doneTaskMapList),
       planningTaskMapList: serializeTaskMapList(reportStore.report.planningTaskMapList)
     }
+    console.log(reportStore.report.projectList);
     const res = await axios.post('http://localhost:8080/confirm/submit', serializedData);
     responseMessage.value = res.data.message;
     if (responseMessage.value === 'week duplicated') {
@@ -87,9 +89,7 @@ const submitReport = async () => {
   </div>
   <div>
     <h2>SUMMARY</h2>
-    <div>
-      {{ reportStore.report.summary }}
-    </div>
+    <p>{{ reportStore.report.summary }}</p>
   </div>
   <div class="register">
     <button @click="submitReport">SUBMIT REPORT</button>

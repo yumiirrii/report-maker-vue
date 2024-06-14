@@ -1,17 +1,6 @@
 <script setup>
 import { ref } from 'vue';
 
-const props = defineProps({
-  title: {
-    type: String,
-    required: true
-  },
-  reports: {
-    type: Array,
-    required: true
-  }
-});
-
 const isOpen = ref(false);
 
 const toggle = () => {
@@ -22,28 +11,25 @@ const toggle = () => {
 <template>
   <div class="accordion-item">
     <div class="accordion-header" @click="toggle">
-      {{ title }}
+      <slot name="title"></slot>
     </div>
     <div class="accordion-body" v-if="isOpen">
-      <ul>
-        <li v-for="report in reports" :key="report.id">
-          {{ report.week }}
-        </li>
-      </ul>
+      <slot name="content"></slot>
     </div>
   </div>
 </template>
 
 <style scoped>
 .accordion-item {
-  border: 1px solid #ccc;
+  border: 1px solid #222222;
   margin-bottom: 10px;
 }
 
 .accordion-header {
-  background: #f1f1f1;
+  background: #222222;
   cursor: pointer;
   padding: 10px;
+  color: #e7d491ff;
 }
 
 .accordion-body {

@@ -16,7 +16,6 @@ onMounted( async () => {
   try {
     const res = await axios.get(`http://localhost:8080/detail/${route.params.reportId}`);
     Object.assign(report, res.data);
-    console.log(res);
   } catch (error) {
     console.log(error);
   }
@@ -70,8 +69,6 @@ onMounted( async () => {
   </div>
   <div>
     <h2>SUMMARY</h2>
-    <div>
-      {{ report.summary }}
-    </div>
+    <p>{{ report.summary }}</p>
   </div>
 </template>
