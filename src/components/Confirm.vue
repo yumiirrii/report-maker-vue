@@ -3,8 +3,11 @@ import { ref } from 'vue';
 import { useReportStore } from '@/stores/reportStore';
 import axios from 'axios';
 import WeekInput from './WeekInput.vue';
+import Modal from '@/components/Modal.vue';
+import { useRouter } from 'vue-router';
 
 const reportStore = useReportStore();
+const router = useRouter();
 const responseMessage = ref('');
 
 const serializeTaskMapList = (taskMapList) => {
@@ -36,6 +39,10 @@ const submitReport = async () => {
   } catch (error) {
     console.log(error);
   }
+}
+
+const backToTop = () => {
+  router.push({ name: 'Top'});
 }
 </script>
 
@@ -94,5 +101,31 @@ const submitReport = async () => {
   <div class="register">
     <button @click="submitReport">SUBMIT REPORT</button>
   </div>
+  <div v-if="responseMessage === 'succeeded'" class="modal-content">
+    <Modal>
+      <template #content>
+        <p>Report has been submitted!</p>
+        <button @click="backToTop">BACK TO TOP</button>
+      </template>
+    </Modal>
+  </div>
   {{ responseMessage }}
 </template>
+
+<style scoped>
+.modal-content p {
+  padding: 10px;
+}
+
+.modal-content button {
+  color: #e7d491ff;
+  background: #222222;
+  margin-right: 5px;
+}
+
+.modal-content button:hover {
+  color: #222222;
+  background: #e7d491ff;
+  border-color: #222222;
+}
+</style>

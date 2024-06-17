@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import AccordionItem from '@/components/AccordionItem.vue';
 
@@ -30,6 +30,13 @@ const toggleItem = (id) => {
   console.log(deleteItems.value);
 }
 
+const thisMonth = computed(() => {
+  const date = new Date();
+  const yearStr = date.getFullYear();
+  const monthStr = String(date.getMonth() + 1).padStart(2, '0');
+  return `${yearStr}-${monthStr}`;
+})
+
 const deleteReports = async () => {
   try {
     const res = await axios.delete('http://localhost:8080/delete', {
@@ -45,7 +52,7 @@ const deleteReports = async () => {
 
 <template>
   <div v-for="(value, key) in reportMonthlyMap" :key="key">
-    <AccordionItem>
+    <AccordionItem :isThisMonth="key === thisMonth">
       <template #title>
         {{ key }}
       </template>

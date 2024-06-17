@@ -1,7 +1,15 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+
+const props = defineProps(['isThisMonth']);
 
 const isOpen = ref(false);
+
+onMounted(() => {
+  if (props.isThisMonth) {
+    isOpen.value = true;
+  }
+})
 
 const toggle = () => {
   isOpen.value = !isOpen.value;

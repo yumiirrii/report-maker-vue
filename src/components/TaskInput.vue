@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { useReportStore } from '@/stores/reportStore';
 import { useRouter } from 'vue-router';
 import Modal from '@/components/Modal.vue';
@@ -140,12 +140,12 @@ const handleYesClick = () => {
     <div v-if="isPlanningTaskAdded" class="register">
       <button @click="registerProjectAndTasks">REGISTER PROJECT & TASKS</button>
     </div>
-    <div v-if="isRegisterBtnClicked">
+    <div v-if="isRegisterBtnClicked" class="modal-content">
       <Modal>
         <template #content>
-          <p id="modal-text">Do you have any other project working on?</p>
-          <button class="yes-no-btn" @click="handleNoClick">NO</button>
-          <button class="yes-no-btn" @click="handleYesClick">YES</button>
+          <p>Do you have any other project working on?</p>
+          <button @click="handleNoClick">NO</button>
+          <button @click="handleYesClick">YES</button>
         </template>
       </Modal>
     </div>
@@ -155,8 +155,6 @@ const handleYesClick = () => {
 <style scoped>
 #options {
     margin: 10px;
-    /* margin-left: 30px;
-    margin-bottom: 20px; */
     padding: 10px 30px;
     background: #eee3bdff;
     width: 60%;
@@ -166,7 +164,6 @@ const handleYesClick = () => {
     margin: 10px;
     font-weight: bold;
     font-size: 18px;
-    /* margin-bottom: 0px; */
 }
 
 #options button {
@@ -178,17 +175,17 @@ const handleYesClick = () => {
     margin-bottom: 15px;
 }
 
-#modal-text {
+.modal-content p {
   padding: 10px;
 }
 
-.yes-no-btn {
+.modal-content button {
   color: #e7d491ff;
   background: #222222;
   margin-right: 5px;
 }
 
-.yes-no-btn:hover {
+.modal-content button:hover {
   color: #222222;
   background: #e7d491ff;
   border-color: #222222;
