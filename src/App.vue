@@ -1,16 +1,13 @@
 <script setup>
-import { RouterView, RouterLink } from 'vue-router';
+import { RouterView } from 'vue-router';
+import Header from './components/Header.vue';
 </script>
 
 <template>
   <header>
-    <!-- <router-link to="/">Top</router-link>
-    <router-link to="/input">Input</router-link>
-    <router-link to="/search">Search</router-link> -->
+    <Header />
   </header>
-  <RouterView />
+  <main>
+    <RouterView />
+  </main>
 </template>
-
-<style scoped>
-
-</style>
