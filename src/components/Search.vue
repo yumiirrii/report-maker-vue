@@ -1,23 +1,35 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, reactive, nextTick } from 'vue';
 import axios from 'axios';
 import AccordionItem from '@/components/AccordionItem.vue';
+import { useBarChart } from '@/components/BarChart.js';
 
-const items = ref([]);
 const deleteItems = ref(new Set());
-
 const reportMonthlyMap = ref(new Map());
+const infoForBarChart = ref([])
+const { canvas } = useBarChart(infoForBarChart);
 
 onMounted(() => {
   getReports();
 });
 
-const getReports = async() => {
+const getReports = async () => {
   try {
     const res = await axios.get('http://localhost:8080/search');
     reportMonthlyMap.value = res.data;
+    connectBarChart();
   } catch (error) {
     console.log(error);
+  }
+}
+
+const connectBarChart = () => {
+  infoForBarChart.value = [];
+  for (let [key,value] of Object.entries(reportMonthlyMap.value)) {
+    infoForBarChart.value.push({
+      month: key,
+      numberOfReports: value.length,
+    })
   }
 }
 
@@ -67,4 +79,7 @@ const deleteReports = async () => {
     </AccordionItem>
   </div>
   <button @click="deleteReports">DELETE</button>
+  <div>
+    <canvas ref="canvas"></canvas>
+  </div>
 </template>

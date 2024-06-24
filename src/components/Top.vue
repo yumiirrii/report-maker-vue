@@ -1,5 +1,6 @@
 <script setup>
 import { useReportStore } from '@/stores/reportStore';
+import BarChart from '@/components/BarChart.vue';
 
 const reportStore = useReportStore();
 
@@ -14,6 +15,7 @@ const reportStore = useReportStore();
     <div>
       <RouterLink :to="{ name: 'Search' }"><button>SEARCH</button></RouterLink>
     </div>
+    <BarChart />
   </div>
 </template>
 
