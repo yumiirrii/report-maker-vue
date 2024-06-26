@@ -36,7 +36,7 @@ const addDoneTask = () => {
     isDoneTaskDupe.value = false;
     isDoneTaskAdded.value = true;
   } else {
-    event.preventDefault();
+    return;
   }
 }
 
@@ -81,7 +81,11 @@ const submitTasks = () => {
 }
 
 const handleNoClick = () => {
-  router.push({ name: 'Summary' });
+  if (reportStore.report.summary) {
+    router.push({ name: 'Confirm'});
+  } else {
+    router.push({ name: 'Summary' });
+  }
 }
 
 const handleYesClick = () => {
@@ -106,7 +110,7 @@ const handleYesClick = () => {
           </li>
         </ul>
       </div>
-      <div id="options" v-if="props.lastTaskList > 0">
+      <div id="options" v-if="props.lastTaskList.length > 0">
         <p>OPTIONS</p>
         <ul class="checkbox-ul">
           <li v-for="(lastTask, index) in props.lastTaskList" :key="index">

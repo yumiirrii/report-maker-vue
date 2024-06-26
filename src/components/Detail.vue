@@ -3,7 +3,7 @@ import axios from 'axios';
 import { reactive, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 
-const route = useRoute();
+const router = useRoute();
 const report = reactive({
   week: '',
   projectList: [],
@@ -14,7 +14,7 @@ const report = reactive({
 
 onMounted( async () => {
   try {
-    const res = await axios.get(`http://localhost:8080/detail/${route.params.reportId}`);
+    const res = await axios.get(`http://localhost:8080/detail/${router.params.reportId}`);
     Object.assign(report, res.data);
   } catch (error) {
     console.log(error);
@@ -70,5 +70,8 @@ onMounted( async () => {
   <div>
     <h2>SUMMARY</h2>
     <p>{{ report.summary }}</p>
+  </div>
+  <div>
+    <button @click="$router.push({ name: 'Search' })">BACK</button>
   </div>
 </template>

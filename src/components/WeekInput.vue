@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import ProjectInput from './ProjectInput.vue';
 import { useReportStore } from '@/stores/reportStore';
 
@@ -12,6 +12,7 @@ const submitWeek = () => {
   if (week.value) {
     reportStore.report.week = weekToDateString(week.value);
     reportStore.isWeekSubmitted = true;
+    week.value = null;
   } else {
     errorMsg.value = 'week input is required.'
   }

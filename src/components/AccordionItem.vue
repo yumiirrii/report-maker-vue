@@ -31,6 +31,7 @@ const toggle = () => {
 .accordion-item {
   border: 1px solid #222222;
   margin-bottom: 10px;
+  width: 400px;
 }
 
 .accordion-header {

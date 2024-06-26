@@ -10,6 +10,10 @@ const reportStore = useReportStore();
 const router = useRouter();
 const responseMessage = ref('');
 
+const deleteProjectAndTasks = (project) => {
+  reportStore.deleteProjectAndTasks(project);
+}
+
 const serializeTaskMapList = (taskMapList) => {
   return taskMapList.map(taskMap => {
     const obj = {};
@@ -41,7 +45,12 @@ const submitReport = async () => {
   }
 }
 
+const goToProjectInput = () => {
+  router.push({ name: 'Input'});
+}
+
 const backToTop = () => {
+  reportStore.reset();
   router.push({ name: 'Top'});
 }
 </script>
@@ -56,10 +65,13 @@ const backToTop = () => {
   </div>
   <div>
     <h2>PROJECTS</h2>
+    <button @click="goToProjectInput">ADD PROJECT AND TASKS</button>
+    <br />
     <div>
       <ul>
         <li v-for="(project, index) in reportStore.report.projectList" :key="index">
           {{ project }}
+          <button @click="deleteProjectAndTasks(project)">DELETE</button>
         </li>
       </ul>
     </div>
@@ -109,7 +121,7 @@ const backToTop = () => {
       </template>
     </Modal>
   </div>
-  {{ responseMessage }}
+  <p class="warning">{{ responseMessage }}</p>
 </template>
 
 <style scoped>

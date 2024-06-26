@@ -9,10 +9,8 @@ const reportStore = useReportStore();
 <template>
   <div id="top">
     <h1>WEEKLY REPORT</h1>
-    <div>
+    <div class="register">
       <RouterLink :to="{ name: 'Input' }"><button>INPUT</button></RouterLink>
-    </div>
-    <div>
       <RouterLink :to="{ name: 'Search' }"><button>SEARCH</button></RouterLink>
     </div>
     <BarChart />
@@ -23,28 +21,11 @@ const reportStore = useReportStore();
 h1 {
   text-align: center;
   font-weight: bold;
+  margin: 30px 0;
 }
 
 button {
-    color: #e7d491ff;
-    text-align: center;
-    font-size: 18px;
-    font-family: Avenir;
-    font-weight: bold;
-    background: #222222;
-    background-clip: padding-box;
-    border: 3px solid #222222;
-    border-radius: 5px;
-    width: 18%;
-    display: block;
-    padding: 10px 0px;
-    margin: 10px auto;
-    transition: 0.3s;
-}
-
-button:hover {
-    color: #222222;
-    background: #e7d491ff;
-    border-color: #222222;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 </style>
